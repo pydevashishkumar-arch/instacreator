@@ -6,6 +6,7 @@ import time
 import names
 import requests
 import telebot
+from dotenv import load_dotenv
 
 # Terminal Color Codes
 rd, gn, lgn, yw, lrd, be, pe = '\033[00;31m', '\033[00;32m', '\033[01;32m', '\033[01;33m', '\033[01;31m', '\033[94m', '\033[01;35m'
@@ -17,8 +18,10 @@ ERROR = f'{rd}[{lrd}-{rd}]{rd} '
 
 os.system('cls' if os.name == 'nt' else 'clear')
 
-TELEGRAM_TOKEN = "8773657593:AAFSDCJJhAHVrfhbJLoPh9u6Pr-Bublz7uw"
-CHAT_ID = "571869676"
+load_dotenv()
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
+
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 os.system('cls' if os.name == 'nt' else 'clear')
 
