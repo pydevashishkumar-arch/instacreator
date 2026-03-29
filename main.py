@@ -54,7 +54,6 @@ def get_proxy():
         "https": proxy
     }
 
-active_proxy = get_proxy()
 
 def show_thinking(message="Processing", duration=4):
     print(f"\n{true}{cn}{message}", end="", flush=True)
@@ -63,7 +62,8 @@ def show_thinking(message="Processing", duration=4):
         print(".", end="", flush=True)
     print("\n")
 
-def show_ip_info():
+def show_ip_info(active_proxy):
+    active_proxy = get_proxy()
     try:
         # We pass the 'proxies' argument here to use Webshare
         ip_data = requests.get("https://ipinfo.io/json", proxies=active_proxy, timeout=10).json()
@@ -74,6 +74,7 @@ def show_ip_info():
 
 
 def get_headers(Country, Language,):
+    active_proxy = get_proxy()
     while True:
         try:
             show_thinking("Fetching headers", 2)
@@ -119,6 +120,7 @@ def get_headers(Country, Language,):
 
 def Get_UserName(Headers, Name, Email):
     """Fixed: Added retry limit and manual fallback to prevent getting stuck."""
+    active_proxy = get_proxy()
     try:
         show_thinking("Getting username suggestion", 5)
         for attempt in range(5):
@@ -146,6 +148,7 @@ def Get_UserName(Headers, Name, Email):
         return Name + str(random.randint(1000, 9999))
 
 def Send_SMS(Headers, Email):
+    active_proxy = get_proxy()
     try:
         show_thinking("Sending verification code", 10)
         data = {
@@ -162,6 +165,7 @@ def Send_SMS(Headers, Email):
         return ""
 
 def Validate_Code(Headers, Email, Code):
+    active_proxy = get_proxy()
     try:
         show_thinking("Validating code", 10)
         data = {
@@ -185,6 +189,7 @@ def get_random_file_from_folder(folder):
     return os.path.join(folder, random.choice(files)) if files else None
 
 def upload_profile_pic(sessionid, csrftoken, retries=3,):
+    active_proxy = get_proxy()
     try:
         folder = 'Profile_pic'
         photo_path = get_random_file_from_folder(folder)
@@ -211,6 +216,7 @@ def upload_profile_pic(sessionid, csrftoken, retries=3,):
         print(ERROR + f"Pic upload exception: {e}")
 
 def convert_to_professional(sessionid, csrftoken, retries=3):
+    active_proxy = get_proxy()
     try:
         url = "https://www.instagram.com/api/v1/business/account/convert_account/"
         headers = {
@@ -242,6 +248,7 @@ def convert_to_professional(sessionid, csrftoken, retries=3):
         return False
 
 def Create_Acc(Headers, Email, SignUpCode):
+    active_proxy = get_proxy()
     try:
         firstname = names.get_first_name()
         UserName = Get_UserName(Headers, firstname, Email)
@@ -308,7 +315,8 @@ def send_telegram_message(message):
 
 
 def account_flow_with_email(Email):
-    show_ip_info()
+    active_proxy = get_proxy()
+    show_ip_info(active_proxy)
     headers = get_headers(Country='US', Language='en')
     ss = Send_SMS(headers, Email)
     if 'email_sent":true' in ss:
